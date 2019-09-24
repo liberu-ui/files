@@ -33,16 +33,15 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
-    "@enso-ui/bulma": "~2.0.0",
-    "@enso-ui/forms": "~1.2.0",
-    "@enso-ui/tables": "~1.1.0",
+    "@enso-ui/bulma": "^2.0.1",
+    "@enso-ui/ui": "^2.0.3",
     "v-tooltip": "^2.0.0-rc.32",
     "vue": "^2.5.16",
     "@enso-ui/modal": "^1.0.0",
-    "@enso-ui/mixins": "^1.0.0",
+    "@enso-ui/mixins": "^1.0.11",
     "lodash": "^4.17.10",
-    "@enso-ui/charts": "^1.0.0",
-    "@enso-ui/directives": "^1.0.1",
+    "@enso-ui/charts": "^1.0.24",
+    "@enso-ui/directives": "^1.0.11",
     "vuex": "^3.0.0"
   }
 }

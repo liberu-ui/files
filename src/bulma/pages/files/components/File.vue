@@ -72,8 +72,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { VTooltip } from 'v-tooltip';
 import { Confirmation } from '@enso-ui/bulma';
-import formatDistance from '@core-modules/plugins/date-fns/formatDistance';
-import format from '@core-modules/plugins/date-fns/format';
+import formatDistance from '@enso-ui/ui/src/modules/plugins/date-fns/formatDistance';
+import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import { files } from '@enso-ui/mixins';
 import Url from './Url.vue';
 
