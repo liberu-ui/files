@@ -7,5 +7,6 @@ export default {
     meta: {
         breadcrumb: 'files',
         title: 'Files',
+        keepAlive: true,
     },
 };
