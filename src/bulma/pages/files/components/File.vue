@@ -71,7 +71,7 @@ import {
     faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
 import { VTooltip } from 'v-tooltip';
-import { Confirmation } from '@enso-ui/confirmation/bulma';
+import Confirmation from '@enso-ui/confirmation/bulma';
 import { files } from '@enso-ui/mixins';
 import formatDistance from '@enso-ui/ui/src/modules/plugins/date-fns/formatDistance';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
