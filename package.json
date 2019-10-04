@@ -34,6 +34,7 @@
     "@enso-ui/charts": "1.0.x",
     "@enso-ui/confirmation": "1.0.x",
     "@enso-ui/directives": "1.0.x",
+    "@enso-ui/filters": "1.1.x",
     "@enso-ui/mixins": "1.0.x",
     "@enso-ui/modal": "1.0.x",
     "@enso-ui/tabs": "1.0.x",

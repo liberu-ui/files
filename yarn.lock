@@ -684,11 +684,11 @@
     vuex "^3.0.0"
 
 "@enso-ui/activity-log@^1.0.2":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@enso-ui/activity-log/-/activity-log-1.0.5.tgz#1f973e4f4dbc3a072f20289dc0e52ed77e700ae5"
-  integrity sha512-p5/ADf2APJneI/FfdmZPORp+ojTcEPXv1F3SCrmAFz+Q0RrXjhwisoTRxO2x7gsUajBNmgn1KrG2jkAKhmEStg==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@enso-ui/activity-log/-/activity-log-1.0.6.tgz#cda77f86115a5da046bd5b174b17ba970c6e1d4b"
+  integrity sha512-CHIGfMMGzYMBMWM4R9O09DC+rzsw+NsK/g5D29h/WPicHkehmGTfr8nxPf/WaRZe9ssKcsHAMuodvRlrUc+DNQ==
   dependencies:
-    "@enso-ui/select" "1.1.x"
+    "@enso-ui/filters" "1.1.x"
     "@enso-ui/ui" "2.0.x"
     "@fortawesome/fontawesome-svg-core" "^1.2.2"
     "@fortawesome/free-solid-svg-icons" "^5.2.0"
@@ -756,7 +756,7 @@
     bulma "^0.7.2"
     vue "^2.5.16"
 
-"@enso-ui/charts@1.0.x", "@enso-ui/charts@^1.0.24":
+"@enso-ui/charts@1.0.x":
   version "1.0.27"
   resolved "https://registry.yarnpkg.com/@enso-ui/charts/-/charts-1.0.27.tgz#10d695a9bb948b6ae981f91227e9f901b9c17bcb"
   integrity sha512-Or8108RSFD8DN2c7VAxv2a4m1MLigYBYxuucixIHEJ5DwlIwxCDwq7RAwWotv2c2UNL9H4DcxgzJGyEuGbz4Ew==
@@ -815,7 +815,7 @@
     v-tooltip "^2.0.0-rc.32"
     vue "^2.5.16"
 
-"@enso-ui/datepicker@1.0.x", "@enso-ui/datepicker@^1.0.0", "@enso-ui/datepicker@~1.0.5":
+"@enso-ui/datepicker@1.0.x", "@enso-ui/datepicker@^1.0.0":
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/@enso-ui/datepicker/-/datepicker-1.0.20.tgz#fe3df64dafb8c498cbe668c6ac97c7bd1b0572ad"
   integrity sha512-983VEwpI2kfSiK7xZOitxSFt714wQjIt/ZYQl+GqaxRVBmsm8eCjAsLwgWDlyHS92mzyMjAuynO8aAGEDEC/FQ==
@@ -829,7 +829,7 @@
     vue "^2.5.16"
     vuex "^3.0.0"
 
-"@enso-ui/directives@1.0.x", "@enso-ui/directives@^1.0.0", "@enso-ui/directives@^1.0.1", "@enso-ui/directives@^1.0.11", "@enso-ui/directives@^1.0.4", "@enso-ui/directives@~1.0.1":
+"@enso-ui/directives@1.0.x", "@enso-ui/directives@^1.0.0", "@enso-ui/directives@^1.0.11", "@enso-ui/directives@^1.0.4":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@enso-ui/directives/-/directives-1.0.11.tgz#8e7566d636155df1bf12c87decac231f47d7ff87"
   integrity sha512-TS1wx5QhPAZMdvEY4y6GYFKUumspGTSxTocks/u+DfnBG5TLq759FLSDKdyoYrRsxUdcE0hPiBimdGil3kx/SA==
@@ -837,7 +837,7 @@
     highlight.js "^9.12.0"
     vue "^2.5.16"
 
-"@enso-ui/divider@1.0.x", "@enso-ui/divider@~1.0.0":
+"@enso-ui/divider@1.0.x":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@enso-ui/divider/-/divider-1.0.4.tgz#5bcb2532b63f309b56f48c3297313c7c99ee251e"
   integrity sha512-RKAvEeDMkEdCCNijsmZczg2eauL3Hwv19eAEBxyNMdROLTmngSrRgz4SZrNNDc3TitgN6fePSWjom2wNOdse1Q==
@@ -866,16 +866,17 @@
     vue "^2.5.16"
 
 "@enso-ui/files@1.0.x", "@enso-ui/files@^1.0.2":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@enso-ui/files/-/files-1.0.4.tgz#5427f3ece75e39a1952e6c0a1716ec4374f73443"
-  integrity sha512-Sigl7XZHHM7lXSpxB31nt4vQzhguoqCNk+qGl/8q0Ka5U/+eH84BJ7uz4g+4/tXqnT0mnBYwFyfCQ/Ca4AGmCg==
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@enso-ui/files/-/files-1.0.5.tgz#e223c83267b345f6b2a3b1ff99e22fff07a776d8"
+  integrity sha512-k7zrmDWByVq85fEy/CXIwM+WJw7LP9NQ27y94BGGnd5OQdumkH8DeeoVZXM7axCiTjhoxTOBAwIOv2AYYKerEw==
   dependencies:
-    "@enso-ui/bulma" "^2.0.1"
-    "@enso-ui/charts" "^1.0.24"
-    "@enso-ui/directives" "^1.0.11"
-    "@enso-ui/mixins" "^1.0.11"
-    "@enso-ui/modal" "^1.0.0"
-    "@enso-ui/ui" "^2.0.3"
+    "@enso-ui/charts" "1.0.x"
+    "@enso-ui/confirmation" "1.0.x"
+    "@enso-ui/directives" "1.0.x"
+    "@enso-ui/mixins" "1.0.x"
+    "@enso-ui/modal" "1.0.x"
+    "@enso-ui/tabs" "1.0.x"
+    "@enso-ui/ui" "2.0.x"
     "@fortawesome/fontawesome-svg-core" "^1.2.2"
     "@fortawesome/free-solid-svg-icons" "^5.2.0"
     lodash "^4.17.10"
@@ -902,19 +903,19 @@
     vuex "^3.0.0"
 
 "@enso-ui/forms@1.2.x", "@enso-ui/forms@^1.2.0", "@enso-ui/forms@^1.2.2", "@enso-ui/forms@~1.2.0", "@enso-ui/forms@~1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@enso-ui/forms/-/forms-1.2.2.tgz#e74a5a726be8f93040a1722854d9b7b866b64042"
-  integrity sha512-yV4ZZDZuitjb5tQPzYGHa5eNA8HpPxjxGRC7xP7Q5k6EH+3or5ihSXt7pNM0UJ/L9FY9/HHSSTBSOmaYY0EueA==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@enso-ui/forms/-/forms-1.2.3.tgz#9940551ddd18730de8f04672f8926e29e21b3457"
+  integrity sha512-X6P1ThliHHk1bVS7WndZV/yZZvFK5oa/dZs3eCxo+wiSWEPAaNCiw9E5FQmgg8Xd0lcuNygHlgDhgMB20EZ3vg==
   dependencies:
-    "@enso-ui/datepicker" "~1.0.5"
-    "@enso-ui/directives" "~1.0.1"
-    "@enso-ui/divider" "~1.0.0"
-    "@enso-ui/modal" "~1.0.4"
-    "@enso-ui/money" "~1.0.0"
-    "@enso-ui/select" "~1.1.0"
-    "@enso-ui/switch" "~1.0.2"
-    "@enso-ui/tabs" "~1.0.5"
-    "@enso-ui/wysiwyg" "~1.0.0"
+    "@enso-ui/datepicker" "1.0.x"
+    "@enso-ui/directives" "1.0.x"
+    "@enso-ui/divider" "1.0.x"
+    "@enso-ui/modal" "1.0.x"
+    "@enso-ui/money" "1.0.x"
+    "@enso-ui/select" "1.1.x"
+    "@enso-ui/switch" "1.0.x"
+    "@enso-ui/tabs" "1.0.x"
+    "@enso-ui/wysiwyg" "1.0.x"
     "@fortawesome/fontawesome-free" "^5.2.0"
     "@fortawesome/fontawesome-svg-core" "^1.2.2"
     "@fortawesome/free-solid-svg-icons" "^5.2.0"
@@ -930,15 +931,18 @@
     vuex "^3.1.0"
 
 "@enso-ui/how-to@^1.0.2":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@enso-ui/how-to/-/how-to-1.0.3.tgz#6d87a57f64a7c73e20afe4c3f0940f03f07f585d"
-  integrity sha512-6wTgIiaqY274hOiWYd34VgOarzodbAMMt6UBZH7LPFaNnPy0gks5a42rPRVM4LKguGkiMjN/vbCYXjYVv+VHWQ==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@enso-ui/how-to/-/how-to-1.0.4.tgz#062963f1adc6afd3004e11688056984bff1cfb89"
+  integrity sha512-42yOvQfC6RKKDN/jZwqVbpIr3xyN7cZL2C5kWDhSEQf+XPv2FRgadGKQQ/aK48UqfR6FPL4EUj9sANg5uuDQog==
   dependencies:
-    "@enso-ui/bulma" "^2.0.1"
-    "@enso-ui/directives" "^1.0.1"
-    "@enso-ui/forms" "^1.2.0"
-    "@enso-ui/tables" "^1.1.0"
-    "@enso-ui/ui" "^2.0.3"
+    "@enso-ui/bulma" "2.0.x"
+    "@enso-ui/card" "1.0.x"
+    "@enso-ui/confirmation" "1.0.x"
+    "@enso-ui/directives" "1.0.x"
+    "@enso-ui/forms" "1.2.x"
+    "@enso-ui/tables" "1.1.x"
+    "@enso-ui/ui" "2.0.x"
+    "@enso-ui/uploader" "^1.0.16"
     "@fortawesome/fontawesome-svg-core" "^1.2.2"
     "@fortawesome/free-regular-svg-icons" "^5.2.0"
     "@fortawesome/free-solid-svg-icons" "^5.2.0"
@@ -948,24 +952,26 @@
     vue-video-player "~5.0.0"
 
 "@enso-ui/loader@1.0.x", "@enso-ui/loader@^1.0.6":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@enso-ui/loader/-/loader-1.0.9.tgz#95903d729d01cec9e0b3807a8ca2707ce4b1c145"
-  integrity sha512-rtaenYZHjn79eOilvS3HoJ8spI3MPc/s5H5JBbBPJ7pFbLC+G85BfdE8LZgZr6eefOsYDQgsjVJekbvJBkjb7g==
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@enso-ui/loader/-/loader-1.0.10.tgz#1f866f98f1f8407218baa83dd630d6af9398216c"
+  integrity sha512-yQrwU9d62fTvIIH2but9Y5q9s9utUF2BkrV3f1PWTmxsRxjbnV0Zh26SqoV+y4ThdGi+XcoiQ5qvPfX6Dri94A==
   dependencies:
-    "@enso-ui/transitions" "^1.0.0"
+    "@enso-ui/transitions" "1.0.x"
     bulma "^0.7.2"
     vue "^2.5.16"
 
 "@enso-ui/localisation@^1.0.2":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@enso-ui/localisation/-/localisation-1.0.3.tgz#a20b06ed2a260f66c0db2c05e91179e8e665311d"
-  integrity sha512-BxqoGmIx1XCkyxICFoPGGOk9noeDzlaHxugEyN7ZC7uv3JT9vpGdvSTiDP96PbbA7vGEx97EPcnREzusAuwdzw==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@enso-ui/localisation/-/localisation-1.0.4.tgz#d9b89b51e1e29bd4cd544dd51445ee1011443423"
+  integrity sha512-eCtkAXWVjoAJelMLDWDV1ck3zVqeiOXTrVM5lV9Jk9J9Kt/tSQcokQCuczSHynqkBRwGxEKzphMyVa94CDxNdw==
   dependencies:
-    "@enso-ui/bulma" "^2.0.1"
-    "@enso-ui/directives" "^1.0.1"
-    "@enso-ui/forms" "^1.2.0"
-    "@enso-ui/tables" "^1.1.0"
-    "@enso-ui/ui" "^2.0.3"
+    "@enso-ui/bulma" "2.0.x"
+    "@enso-ui/directives" "1.0.x"
+    "@enso-ui/forms" "1.2.x"
+    "@enso-ui/select" "1.1.x"
+    "@enso-ui/switch" "1.0.x"
+    "@enso-ui/tables" "1.1.x"
+    "@enso-ui/ui" "2.0.x"
     "@fortawesome/fontawesome-svg-core" "^1.2.2"
     "@fortawesome/free-solid-svg-icons" "^5.2.0"
     v-tooltip "^2.0.0-rc.32"
@@ -973,13 +979,15 @@
     vuex "^3.0.0"
 
 "@enso-ui/logs@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@enso-ui/logs/-/logs-1.0.0.tgz#1088e6f1bbbd88c0886943dec514449df83223f5"
-  integrity sha512-JnUo3gDKtVb6fUbu61tQWp0rG6wmlTrlx291sz68piOoVmHsZgFrimxQsIKu2+tS91gh/W0UK9mSaRx7QwfWKQ==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@enso-ui/logs/-/logs-1.0.1.tgz#ce314fef755c6ab5604bb1a2f99738c3faa968cb"
+  integrity sha512-BjETe9ZqoJCXoEk3n9D83WM45cOogMmDH3pNtbQkraNQozGljU4U201QQjkGt8ow60gmzKKmcpC+vl+F5fEfdA==
   dependencies:
-    "@enso-ui/bulma" "~2.0.0"
-    "@enso-ui/directives" "~1.0.1"
-    "@enso-ui/ui" "^2.0.3"
+    "@enso-ui/bulma" "2.0.x"
+    "@enso-ui/card" "1.0.x"
+    "@enso-ui/confirmation" "1.0.x"
+    "@enso-ui/directives" "1.0.x"
+    "@enso-ui/ui" "2.0.x"
     "@fortawesome/fontawesome-svg-core" "^1.2.2"
     "@fortawesome/free-solid-svg-icons" "^5.2.0"
     vue "^2.5.16"
@@ -993,14 +1001,14 @@
     "@enso-ui/tables" "~1.1.0"
     vue "^2.5.16"
 
-"@enso-ui/mixins@1.0.x", "@enso-ui/mixins@^1.0.0", "@enso-ui/mixins@^1.0.11":
+"@enso-ui/mixins@1.0.x", "@enso-ui/mixins@^1.0.0":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@enso-ui/mixins/-/mixins-1.0.11.tgz#c95350ea8c43d7ffc2915f124fb46db1535f515f"
   integrity sha512-F0Jg2KFDq0IM08oC18jgNAlGg4OEmNAUzSpKnBM6+OrRINJNT81zkwtXjE6IAspUQgrMWbl9IykTEQAHpWDJog==
   dependencies:
     vue "^2.5.16"
 
-"@enso-ui/modal@1.0.x", "@enso-ui/modal@^1.0.0", "@enso-ui/modal@^1.0.6", "@enso-ui/modal@~1.0.4":
+"@enso-ui/modal@1.0.x", "@enso-ui/modal@^1.0.0", "@enso-ui/modal@^1.0.6":
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/@enso-ui/modal/-/modal-1.0.11.tgz#361fcf46e948fd26692065e87ffb783a4a1999f4"
   integrity sha512-S6ZOujKfWVvJJVFqMU28BYW2Jsq8KpCO45vgc/vWCC6uc9Vqrx8A2VjHv2+rIX7LC/Bq5D3fFscAkz1uG/YqdA==
@@ -1010,7 +1018,7 @@
     bulma "^0.7.2"
     vue "^2.5.16"
 
-"@enso-ui/money@1.0.x", "@enso-ui/money@~1.0.0":
+"@enso-ui/money@1.0.x":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@enso-ui/money/-/money-1.0.8.tgz#a172239c84fda29197c850b315f578bc4ba6b807"
   integrity sha512-ag/LzHCCcZn2ccl4SUam6ryogpEYuI726+1vNMaVFqayp5sQ3qPniWdvOY8BTZVbY1DgZoze5w03BHwyU9gMzg==
@@ -1100,7 +1108,7 @@
     lodash "^4.17.10"
     vue "^2.5.16"
 
-"@enso-ui/switch@1.0.x", "@enso-ui/switch@~1.0.2":
+"@enso-ui/switch@1.0.x":
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/@enso-ui/switch/-/switch-1.0.13.tgz#befff50757a54b67702e19a78b5615020811eb2b"
   integrity sha512-CPvSNuSnDXXoh41V18MFEDqCb4M302CvANk9y9mhXHvrY2fC4SRoO+YKTDLX0FRDyoVPAQQgJi9F8G1U1IGBLQ==
@@ -1128,7 +1136,7 @@
     vue "^2.5.16"
     vuex "^3.1.0"
 
-"@enso-ui/tabs@1.0.x", "@enso-ui/tabs@~1.0.5":
+"@enso-ui/tabs@1.0.x":
   version "1.0.25"
   resolved "https://registry.yarnpkg.com/@enso-ui/tabs/-/tabs-1.0.25.tgz#5e9bbab584b5efbc5414ebd22600db2179b9b2ce"
   integrity sha512-M6cLxVx/8Ep14LzhEneUzU3Nb9Tiahq/svWSvETlHe0Qh83ZTG9wQ/M2jKanXyK5jhcIcc9qepAjR28tn9NzOw==
@@ -1255,7 +1263,7 @@
     vuex "^3.1.0"
     zxcvbn "^4.4.2"
 
-"@enso-ui/uploader@1.0.x":
+"@enso-ui/uploader@1.0.x", "@enso-ui/uploader@^1.0.16":
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/@enso-ui/uploader/-/uploader-1.0.16.tgz#e6fa58c865f0d013a998b5abd998272a51b3358a"
   integrity sha512-N38eDdnr3UvBodMAxSOrdoXKM8M3V8GPSEatVQY1ZKQnPcwXVGA8kEBV569KnY7hICKGOz4lQjJMYkeueaMYxw==
@@ -1266,7 +1274,7 @@
     bulma "^0.7.2"
     vue "^2.5.16"
 
-"@enso-ui/wysiwyg@~1.0.0":
+"@enso-ui/wysiwyg@1.0.x":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@enso-ui/wysiwyg/-/wysiwyg-1.0.6.tgz#a78032f91942f5b242fba3357280969d82c9f65d"
   integrity sha512-kSkSKWs9ah23PNG3TMTd4hdCVekmRCG/7Ty7kLUcK7Lpo/EgKgsLfEeQEJ/dySSfUIb8VwLkSOQMyZ5jP0f6Jw==
