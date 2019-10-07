@@ -84,9 +84,7 @@ import { debounce } from 'lodash';
 import { mapState, mapGetters } from 'vuex';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch, faUndo, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
-import { Tab, EnsoTabs } from '@enso-ui/tabs/bulma';
-import { EnsoDateFilter } from '@enso-ui/filters/bulma';
-import { Chart } from '@enso-ui/charts/bulma';
+import { Chart, Uploader, Tab, EnsoTabs, EnsoDateFilter } from '@enso-ui/bulma'
 import { colors } from '@enso-ui/charts';
 import File from './components/File.vue';
 
