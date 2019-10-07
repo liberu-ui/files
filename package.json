@@ -1,6 +1,6 @@
 {
   "name": "@enso-ui/files",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Basic files package",
   "main": "src/bulma/pages/files/Index.vue",
   "scripts": {
