@@ -44,7 +44,7 @@
                     </p>
                 </div>
                 <div class="field is-grouped has-margin-top-large">
-                    <uploader multiple
+                    <enso-uploader multiple
                         :url="uploadUrl"
                         file-key="upload"
                         @upload-successful="addUploadedFiles"/>
@@ -87,6 +87,7 @@ import { faSearch, faUndo, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { Tab, EnsoTabs } from '@enso-ui/tabs/bulma';
 import { EnsoDateFilter } from '@enso-ui/filters/bulma';
 import { Chart } from '@enso-ui/charts/bulma';
+import { EnsoUploader } from '@enso-ui/uploader/bulma';
 import { colors } from '@enso-ui/charts';
 import File from './components/File.vue';
 
@@ -98,7 +99,7 @@ export default {
     inject: ['errorHandler', 'i18n', 'route'],
 
     components: {
-        EnsoTabs, Tab, File, Chart, EnsoDateFilter, Uploader,
+        EnsoTabs, Tab, File, Chart, EnsoDateFilter, EnsoUploader,
     },
 
     data: () => ({
