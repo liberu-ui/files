@@ -62,13 +62,16 @@
         <url :show="temporaryLink !== ''"
             :link="temporaryLink"
             @close="temporaryLink = ''"/>
+        <Preview :file="preview"
+            v-if="preview"
+            @close="preview = null"/>
     </div>
 </template>
 
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-    faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase,
+    faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase
 } from '@fortawesome/free-solid-svg-icons';
 import { VTooltip } from 'v-tooltip';
 import Confirmation from '@enso-ui/confirmation/bulma';
@@ -76,6 +79,7 @@ import { files } from '@enso-ui/mixins';
 import formatDistance from '@enso-ui/ui/src/modules/plugins/date-fns/formatDistance';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import Url from './Url.vue';
+import Preview from './Preview.vue';
 
 library.add(faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase);
 
@@ -86,7 +90,7 @@ export default {
 
     directives: { tooltip: VTooltip },
 
-    components: { Confirmation, Url },
+    components: { Confirmation, Url, Preview },
 
     mixins: [files],
 
@@ -98,6 +102,7 @@ export default {
     },
 
     data: () => ({
+        preview: null,
         temporaryLink: '',
     }),
 
@@ -108,6 +113,11 @@ export default {
                 .catch(this.errorHandler);
         },
         show() {
+            if (this.file.mimeType === 'application/pdf') {
+                this.preview = this.file;
+                return;
+            }
+
             window.open(this.route('core.files.show', this.file.id), '_blank').focus();
         },
         timeFromNow(date) {
