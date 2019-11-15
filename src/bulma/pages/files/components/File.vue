@@ -71,7 +71,7 @@
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-    faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase
+    faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
 import { VTooltip } from 'v-tooltip';
 import Confirmation from '@enso-ui/confirmation/bulma';
