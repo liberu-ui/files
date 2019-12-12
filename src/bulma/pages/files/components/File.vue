@@ -79,7 +79,7 @@ import { files } from '@enso-ui/mixins';
 import formatDistance from '@enso-ui/ui/src/modules/plugins/date-fns/formatDistance';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import Url from './Url.vue';
-import preview from './Preview.vue';
+import Preview from './Preview.vue';
 
 library.add(faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase);
 
@@ -90,7 +90,7 @@ export default {
 
     directives: { tooltip: VTooltip },
 
-    components: { Confirmation, Url, preview },
+    components: { Confirmation, Url, Preview },
 
     mixins: [files],
 
