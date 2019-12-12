@@ -62,7 +62,7 @@
         <url :show="temporaryLink !== ''"
             :link="temporaryLink"
             @close="temporaryLink = ''"/>
-        <Preview :file="preview"
+        <preview :file="preview"
             v-if="preview"
             @close="preview = null"/>
     </div>
@@ -79,7 +79,7 @@ import { files } from '@enso-ui/mixins';
 import formatDistance from '@enso-ui/ui/src/modules/plugins/date-fns/formatDistance';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import Url from './Url.vue';
-import Preview from './Preview.vue';
+import preview from './Preview.vue';
 
 library.add(faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase);
 
@@ -90,7 +90,7 @@ export default {
 
     directives: { tooltip: VTooltip },
 
-    components: { Confirmation, Url, Preview },
+    components: { Confirmation, Url, preview },
 
     mixins: [files],
 

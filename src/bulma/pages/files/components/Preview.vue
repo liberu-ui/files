@@ -4,7 +4,7 @@
         v-on="$listeners">
         <div class="box has-background-light">
             <div class="detail">
-                <strong class="name">{{file.name}}</strong>
+                <strong class="name">{{ file.name }}</strong>
                 <a class="button is-naked" :href="url" target="_blank">
                     <span class="icon">
                         <fa icon="external-link-alt"/>
@@ -19,17 +19,14 @@
 <script>
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import { Modal } from '@enso-ui/bulma';
-import { Fade } from '@enso-ui/transitions';
+import { Modal } from '@enso-ui/modal/bulma';
 
 library.add(faExternalLinkAlt);
 
 export default {
     name: 'Preview',
 
-    components: {
-        Modal, Fade,
-    },
+    components: { Modal },
 
     inject: ['i18n', 'route'],
 
@@ -43,7 +40,7 @@ export default {
     computed: {
         url() {
             return this.route('core.files.show', this.file.id);
-        }
+        },
     },
 };
 </script>
