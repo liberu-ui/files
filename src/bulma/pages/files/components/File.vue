@@ -90,7 +90,7 @@ export default {
 
     directives: { tooltip: VTooltip },
 
-    components: { Confirmation, Url, preview },
+    components: { Confirmation, Url, Preview },
 
     mixins: [files],
 
