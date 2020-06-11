@@ -2,7 +2,7 @@
     <div class="box has-background-light raises-on-hover file-box has-padding-large">
         <figure class="image is-32x32 avatar">
             <img class="is-rounded"
-                :src="route('core.avatars.show', file.owner.avatarId)">
+                :src="route('core.avatars.show', file.owner.avatar.id)">
         </figure>
         <p class="has-text-centered has-margin-bottom-medium">
             <fa :icon="icon"
