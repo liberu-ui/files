@@ -18,6 +18,7 @@
                     </a>
                 </div>
             </div>
+            <clipboard ref="clipboard"/>
         </div>
     </modal>
 </template>
@@ -27,6 +28,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { focus, selectOnFocus } from '@enso-ui/directives';
 import { Modal } from '@enso-ui/modal/bulma';
+import Clipboard from '@enso-ui/clipboard';
 
 library.add(faCopy);
 
@@ -35,7 +37,7 @@ export default {
 
     directives: { focus, selectOnFocus },
 
-    components: { Modal },
+    components: { Modal, Clipboard },
 
     inject: ['i18n'],
 
@@ -53,7 +55,7 @@ export default {
 
     methods: {
         copy() {
-            document.execCommand('copy');
+            this.$refs.clipboard.copy(this.link);
             this.$toastr.success(this.i18n('Copied to clipboard'));
         },
     },
