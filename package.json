@@ -25,7 +25,7 @@
     "@enso-ui/confirmation": "^1.0",
     "@enso-ui/directives": "^1.0",
     "@enso-ui/filters": "^2.0",
-    "@enso-ui/mixins": "^1.1",
+    "@enso-ui/mixins": "^2.0",
     "@enso-ui/modal": "^2.0",
     "@enso-ui/tabs": "^1.0",
     "@enso-ui/switch": "^1.0",
