@@ -39,7 +39,7 @@ export default {
 
     components: { Modal, Clipboard },
 
-    inject: ['i18n'],
+    inject: ['i18n', 'toastr'],
 
     props: {
         show: {
@@ -56,7 +56,7 @@ export default {
     methods: {
         copy() {
             this.$refs.clipboard.copy(this.link);
-            this.$toastr.success(this.i18n('Copied to clipboard'));
+            this.toastr.success(this.i18n('Copied to clipboard'));
         },
     },
 };

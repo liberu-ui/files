@@ -1,6 +1,5 @@
 <template>
     <modal class="preview-modal"
-        show
         v-on="$listeners">
         <div class="box has-background-light">
             <div class="detail">
