@@ -1,6 +1,6 @@
 <template>
-    <modal v-on="$listeners"
-        :show="show">
+    <modal v-if="show"
+       v-on="$listeners">
         <div class="box">
             <div class="field has-addons">
                 <div class="control is-expanded">
