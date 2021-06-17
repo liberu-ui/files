@@ -191,7 +191,7 @@ export default {
                     const index = this.files.findIndex(file => file.id === id);
                     this.files.splice(index, 1);
                     this.loading = false;
-                }).catch(this.errorHandle);
+                }).catch(this.errorHandler);
         },
         content(folder) {
             return this.files.filter(({ type }) => type === folder);
