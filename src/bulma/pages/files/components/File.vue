@@ -25,7 +25,7 @@
             </span>
             {{ file.size / 1000 | numberFormat }} KB
         </p>
-        <div class="has-text-centered has-margin-top-medium">
+        <div class="has-text-centered mt-2">
             <div class="details">
                 <a class="button is-naked"
                     v-if="file.isShareable && canAccess('core.files.link')"
