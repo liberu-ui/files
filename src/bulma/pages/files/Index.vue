@@ -4,7 +4,7 @@
             <span>
                 {{ i18n(tab) }}
             </span>
-            <span class="tag is-dark file-counter has-margin-left-medium">
+            <span class="tag is-dark file-counter ml-2">
                 {{ content(tab).length }}
             </span>
         </template>
@@ -28,7 +28,7 @@
                 </tab>
             </div>
             <div class="column is-one-third">
-                <div class="has-margin-top-small">
+                <div class="mt-1">
                     <p class="control has-icons-left has-icons-right">
                         <input class="input is-rounded search-files"
                             :placeholder="i18n('Filter')"
@@ -43,7 +43,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="field is-grouped has-margin-top-large">
+                <div class="field is-grouped mt-3">
                     <enso-uploader multiple
                         :url="uploadUrl"
                         file-key="upload"
@@ -59,7 +59,7 @@
                         </span>
                     </a>
                 </div>
-                <enso-date-filter class="box raises-on-hover has-margin-top-large"
+                <enso-date-filter class="box raises-on-hover mt-3"
                     value="today"
                     @update="interval = $event; reset()"/>
                 <div class="box has-background-light raises-on-hover">

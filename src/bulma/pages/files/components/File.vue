@@ -1,10 +1,10 @@
 <template>
-    <div class="box has-background-light raises-on-hover file-box has-padding-large">
+    <div class="box has-background-light raises-on-hover file-box p-3">
         <figure class="image is-32x32 avatar">
             <img class="is-rounded"
                 :src="route('core.avatars.show', file.owner.avatar.id)">
         </figure>
-        <p class="has-text-centered has-margin-bottom-medium">
+        <p class="has-text-centered mb-2">
             <fa :icon="icon"
                 size="3x"/>
         </p>
@@ -19,7 +19,7 @@
             </span>
             {{ timeFromNow(file.createdAt) }}
         </p>
-        <p class="has-margin-top-small has-text-centered">
+        <p class="mt-1 has-text-centered">
             <span class="icon is-small">
                 <fa icon="database"/>
             </span>
