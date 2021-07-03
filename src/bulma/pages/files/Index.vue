@@ -89,6 +89,7 @@ import { EnsoDateFilter } from '@enso-ui/filters/bulma';
 import { Chart } from '@enso-ui/charts/bulma';
 import { EnsoUploader } from '@enso-ui/uploader/bulma';
 import { colors } from '@enso-ui/charts';
+import { numberFormat } from '@enso-ui/mixins';
 import File from './components/File.vue';
 
 library.add(faSearch, faUndo, faSyncAlt);
@@ -136,16 +137,14 @@ export default {
                     backgroundColor: this.colors,
                     datalabels: {
                         backgroundColor: this.colors,
-                        formatter: val => `${this.$options.filters.numberFormat(val / 1000)} KB`,
+                        formatter: val => `${numberFormat(val / 1000)} KB`,
                     },
                 }],
             };
         },
         storageUsage() {
             return this.stats.totalSpaceUsed
-                && this.$options.filters.numberFormat(
-                    this.stats.totalSpaceUsed * 100 / this.stats.storageLimit, 2,
-                );
+                && numberFormat(this.stats.totalSpaceUsed * 100 / this.stats.storageLimit, 2);
         },
         status() {
             return this.storageUsage < 95

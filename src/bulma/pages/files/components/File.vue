@@ -23,7 +23,7 @@
             <span class="icon is-small">
                 <fa icon="database"/>
             </span>
-            {{ file.size / 1000 | numberFormat }} KB
+            {{ size }} KB
         </p>
         <div class="has-text-centered mt-2">
             <div class="details">
@@ -75,7 +75,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { VTooltip } from 'v-tooltip';
 import Confirmation from '@enso-ui/confirmation/bulma';
-import { files } from '@enso-ui/mixins';
+import { files, numberFormat } from '@enso-ui/mixins';
 import formatDistance from '@enso-ui/ui/src/modules/plugins/date-fns/formatDistance';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import Url from './Url.vue';
@@ -105,6 +105,12 @@ export default {
         preview: null,
         temporaryLink: '',
     }),
+
+    computed: {
+        size() {
+            return numberFormat(this.file.size / 1000);
+        },
+    },
 
     methods: {
         link() {
