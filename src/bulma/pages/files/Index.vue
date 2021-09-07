@@ -171,16 +171,17 @@ export default {
         },
         fetch() {
             this.loading = true;
+            const { interval, query, offset } = this;
+            const payload = { params: { interval, query, offset } };
 
-            axios.get(this.route('core.files.index'), {
-                params: { interval: this.interval, query: this.query, offset: this.offset },
-            }).then(({ data }) => {
-                this.files.push(...data.data);
-                this.offset += data.data.length;
-                this.folders = data.folders;
-                this.stats = data.stats;
-                this.loading = false;
-            }).catch(this.errorHandler);
+            axios.get(this.route('core.files.index'), payload)
+                .then(({ data }) => {
+                    this.files.push(...data.data);
+                    this.offset += data.data.length;
+                    this.folders = data.folders;
+                    this.stats = data.stats;
+                }).catch(this.errorHandler)
+                .finally(() => (this.loading = false));
         },
         destroy(id) {
             this.loading = true;
@@ -189,8 +190,8 @@ export default {
                 .then(() => {
                     const index = this.files.findIndex(file => file.id === id);
                     this.files.splice(index, 1);
-                    this.loading = false;
-                }).catch(this.errorHandler);
+                }).catch(this.errorHandler)
+                .finally(() => (this.loading = false));
         },
         content(folder) {
             return this.files.filter(({ type }) => type === folder);
