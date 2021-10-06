@@ -70,7 +70,6 @@
                         </span>
                     </h5>
                     <chart :data="chartData"
-                        :options="{ aspectRatio: 1 }"
                         type="doughnut"
                         v-if="!isMobile && stats.filteredSpaceUsed > 0"/>
                 </div>
