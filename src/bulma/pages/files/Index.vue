@@ -1,6 +1,6 @@
 <template>
     <enso-tabs>
-        <template v-slot:label="{ tab }">
+        <template #:label="{ tab }">
             <span>
                 {{ i18n(tab) }}
             </span>
@@ -96,11 +96,11 @@ library.add(faSearch, faUndo, faSyncAlt);
 export default {
     name: 'Index',
 
-    inject: ['errorHandler', 'i18n', 'route'],
-
     components: {
         EnsoTabs, Tab, File, Chart, EnsoDateFilter, EnsoUploader,
     },
+
+    inject: ['errorHandler', 'i18n', 'route'],
 
     data: () => ({
         loading: false,
