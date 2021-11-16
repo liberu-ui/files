@@ -1,6 +1,5 @@
 <template>
-    <modal v-if="show"
-       v-on="$listeners">
+    <modal v-if="show">
         <div class="box">
             <div class="field has-addons">
                 <div class="control is-expanded">

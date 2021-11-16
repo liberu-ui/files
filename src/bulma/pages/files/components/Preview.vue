@@ -1,6 +1,5 @@
 <template>
-    <modal class="preview-modal"
-        v-on="$listeners">
+    <modal class="preview-modal"   >
         <div class="box has-background-light">
             <div class="detail">
                 <strong class="name">{{ file.name }}</strong>

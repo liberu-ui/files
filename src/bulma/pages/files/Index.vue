@@ -1,6 +1,6 @@
 <template>
     <enso-tabs>
-        <template #:label="{ tab }">
+        <template #label="{ tab }">
             <span>
                 {{ i18n(tab) }}
             </span>
