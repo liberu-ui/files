@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase,
@@ -90,7 +91,7 @@ export default {
 
     directives: { tooltip: VTooltip },
 
-    components: { Confirmation, Url, Preview },
+    components: { Confirmation, Fa, Url, Preview },
 
     mixins: [files],
 

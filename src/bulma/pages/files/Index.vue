@@ -81,6 +81,7 @@
 <script>
 import { debounce } from 'lodash';
 import { mapState, mapGetters } from 'vuex';
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch, faUndo, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { Tab, EnsoTabs } from '@enso-ui/tabs/bulma';
@@ -97,7 +98,7 @@ export default {
     name: 'Index',
 
     components: {
-        EnsoTabs, Tab, File, Chart, EnsoDateFilter, EnsoUploader,
+        EnsoTabs, Fa, Tab, File, Chart, EnsoDateFilter, EnsoUploader,
     },
 
     inject: ['errorHandler', 'i18n', 'route'],

@@ -1,6 +1,6 @@
 {
   "name": "@enso-ui/files",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Basic files package",
   "main": "src/bulma/pages/files/Index.vue",
   "scripts": {
@@ -33,6 +33,7 @@
     "@enso-ui/uploader": "^2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
     "@fortawesome/free-solid-svg-icons": "^5.2.0",
+    "@fortawesome/vue-fontawesome": "3.0.0-5",
     "lodash": "^4.17.10",
     "v-tooltip": "4.0.0-alpha.1",
     "vue": "^3.0",
