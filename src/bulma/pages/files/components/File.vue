@@ -99,6 +99,8 @@ export default {
         },
     },
 
+    emits: ['delete'],
+
     data: () => ({
         preview: null,
         temporaryLink: '',
