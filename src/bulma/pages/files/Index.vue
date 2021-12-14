@@ -60,8 +60,8 @@
                     </a>
                 </div>
                 <enso-date-filter class="box raises-on-hover mt-3"
-                    value="today"
-                    @update="interval = $event; reset()"/>
+                    v-model:filter="dateFilter"
+                    v-model:interval="interval"/>
                 <div class="box has-background-light raises-on-hover">
                     <h5 class="title is-5 has-text-centered">
                         {{ i18n('Storage Usage') }}:
@@ -114,6 +114,7 @@ export default {
             min: null,
             max: null,
         },
+        dateFilter: 'today',
     }),
 
     computed: {
@@ -154,13 +155,14 @@ export default {
     },
 
     watch: {
-        query() {
-            this.reset();
-        },
+        query: 'reset',
+        dateFilter: 'reset',
     },
 
     created() {
         this.fetch = debounce(this.fetch, 300);
+
+        this.fetch();
     },
 
     methods: {
