@@ -101,7 +101,7 @@ export default {
         EnsoTabs, Fa, Tab, File, Chart, EnsoDateFilter, EnsoUploader,
     },
 
-    inject: ['errorHandler', 'i18n', 'route'],
+    inject: ['errorHandler', 'http', 'i18n', 'route'],
 
     data: () => ({
         loading: false,
@@ -176,7 +176,7 @@ export default {
             const { interval, query, offset } = this;
             const payload = { params: { interval, query, offset } };
 
-            axios.get(this.route('core.files.index'), payload)
+            this.http.get(this.route('core.files.index'), payload)
                 .then(({ data }) => {
                     this.files.push(...data.data);
                     this.offset += data.data.length;
@@ -188,7 +188,7 @@ export default {
         destroy(id) {
             this.loading = true;
 
-            axios.delete(this.route('core.files.destroy', id, false))
+            this.http.delete(this.route('core.files.destroy', id, false))
                 .then(() => {
                     const index = this.files.findIndex(file => file.id === id);
                     this.files.splice(index, 1);
