@@ -86,9 +86,11 @@ library.add(faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faData
 export default {
     name: 'File',
 
-    inject: ['canAccess', 'errorHandler', 'http', 'route'],
+    components: {
+        Confirmation, Fa, Url, Preview,
+    },
 
-    components: { Confirmation, Fa, Url, Preview },
+    inject: ['canAccess', 'errorHandler', 'http', 'route'],
 
     props: {
         file: {
