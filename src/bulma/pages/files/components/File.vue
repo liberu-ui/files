@@ -69,13 +69,13 @@
 </template>
 
 <script>
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
-import { VTooltip } from 'v-tooltip';
 import Confirmation from '@enso-ui/confirmation/bulma';
-import { files, numberFormat } from '@enso-ui/mixins';
+import { EnsoFile, numberFormat } from '@enso-ui/mixins';
 import formatDistance from '@enso-ui/ui/src/modules/plugins/date-fns/formatDistance';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import Url from './Url.vue';
@@ -86,13 +86,11 @@ library.add(faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faData
 export default {
     name: 'File',
 
-    inject: ['canAccess', 'errorHandler', 'route'],
+    components: {
+        Confirmation, Fa, Url, Preview,
+    },
 
-    directives: { tooltip: VTooltip },
-
-    components: { Confirmation, Url, Preview },
-
-    mixins: [files],
+    inject: ['canAccess', 'errorHandler', 'http', 'route'],
 
     props: {
         file: {
@@ -101,12 +99,19 @@ export default {
         },
     },
 
+    emits: ['delete'],
+
     data: () => ({
         preview: null,
         temporaryLink: '',
     }),
 
     computed: {
+        icon() {
+            const file = new EnsoFile(this.file.name);
+
+            return file.icon();
+        },
         size() {
             return numberFormat(this.file.size / 1000);
         },
@@ -114,7 +119,7 @@ export default {
 
     methods: {
         link() {
-            axios.get(this.route('core.files.link', this.file.id))
+            this.http.get(this.route('core.files.link', this.file.id))
                 .then(({ data }) => (this.temporaryLink = data.link))
                 .catch(this.errorHandler);
         },

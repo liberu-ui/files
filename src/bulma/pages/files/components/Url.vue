@@ -1,6 +1,5 @@
 <template>
-    <modal v-if="show"
-       v-on="$listeners">
+    <modal v-if="show">
         <div class="box">
             <div class="field has-addons">
                 <div class="control is-expanded">
@@ -24,6 +23,7 @@
 </template>
 
 <script>
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { focus, selectOnFocus } from '@enso-ui/directives';
@@ -37,7 +37,7 @@ export default {
 
     directives: { focus, selectOnFocus },
 
-    components: { Modal, Clipboard },
+    components: { Clipboard, Fa, Modal },
 
     inject: ['i18n', 'toastr'],
 

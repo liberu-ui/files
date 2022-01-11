@@ -1,6 +1,6 @@
 <template>
     <enso-tabs>
-        <template v-slot:label="{ tab }">
+        <template #label="{ tab }">
             <span>
                 {{ i18n(tab) }}
             </span>
@@ -60,8 +60,8 @@
                     </a>
                 </div>
                 <enso-date-filter class="box raises-on-hover mt-3"
-                    value="today"
-                    @update="interval = $event; reset()"/>
+                    v-model:filter="dateFilter"
+                    v-model:interval="interval"/>
                 <div class="box has-background-light raises-on-hover">
                     <h5 class="title is-5 has-text-centered">
                         {{ i18n('Storage Usage') }}:
@@ -81,6 +81,7 @@
 <script>
 import { debounce } from 'lodash';
 import { mapState, mapGetters } from 'vuex';
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch, faUndo, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { Tab, EnsoTabs } from '@enso-ui/tabs/bulma';
@@ -96,11 +97,11 @@ library.add(faSearch, faUndo, faSyncAlt);
 export default {
     name: 'Index',
 
-    inject: ['errorHandler', 'i18n', 'route'],
-
     components: {
-        EnsoTabs, Tab, File, Chart, EnsoDateFilter, EnsoUploader,
+        EnsoTabs, Fa, Tab, File, Chart, EnsoDateFilter, EnsoUploader,
     },
+
+    inject: ['errorHandler', 'http', 'i18n', 'route'],
 
     data: () => ({
         loading: false,
@@ -113,6 +114,7 @@ export default {
             min: null,
             max: null,
         },
+        dateFilter: 'today',
     }),
 
     computed: {
@@ -153,13 +155,14 @@ export default {
     },
 
     watch: {
-        query() {
-            this.reset();
-        },
+        query: 'reset',
+        dateFilter: 'reset',
     },
 
     created() {
         this.fetch = debounce(this.fetch, 300);
+
+        this.fetch();
     },
 
     methods: {
@@ -173,7 +176,7 @@ export default {
             const { interval, query, offset } = this;
             const payload = { params: { interval, query, offset } };
 
-            axios.get(this.route('core.files.index'), payload)
+            this.http.get(this.route('core.files.index'), payload)
                 .then(({ data }) => {
                     this.files.push(...data.data);
                     this.offset += data.data.length;
@@ -185,7 +188,7 @@ export default {
         destroy(id) {
             this.loading = true;
 
-            axios.delete(this.route('core.files.destroy', id, false))
+            this.http.delete(this.route('core.files.destroy', id, false))
                 .then(() => {
                     const index = this.files.findIndex(file => file.id === id);
                     this.files.splice(index, 1);

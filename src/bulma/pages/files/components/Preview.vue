@@ -1,6 +1,5 @@
 <template>
-    <modal class="preview-modal"
-        v-on="$listeners">
+    <modal class="preview-modal">
         <div class="box has-background-light">
             <div class="detail">
                 <strong class="name">{{ file.name }}</strong>
@@ -16,6 +15,7 @@
 </template>
 
 <script>
+import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from '@enso-ui/modal/bulma';
@@ -25,7 +25,7 @@ library.add(faExternalLinkAlt);
 export default {
     name: 'Preview',
 
-    components: { Modal },
+    components: { Fa, Modal },
 
     inject: ['i18n', 'route'],
 
