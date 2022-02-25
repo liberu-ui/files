@@ -1,230 +1,151 @@
 <template>
-    <enso-tabs>
-        <template #label="{ tab }">
-            <span>
-                {{ i18n(tab) }}
-            </span>
-            <span class="tag is-dark file-counter ml-2">
-                {{ content(tab).length }}
-            </span>
-        </template>
-        <div class="files-index columns is-reverse-mobile">
-            <div class="column is-two-thirds">
-                <tab v-for="folder in folders"
-                    :key="folder"
-                    :id="folder">
-                    <transition-group class="columns is-multiline is-mobile folder-content"
-                        enter-active-class="fadeInUp"
-                        leave-active-class="fadeOutDown"
-                        tag="div"
-                        @scroll="computeScrollPosition">
-                        <div class="column is-half-mobile is-one-third-desktop animated"
-                            v-for="file in content(folder)"
-                            :key="file.id">
-                            <file :file="file"
-                                @delete="destroy(file.id)"/>
-                        </div>
-                    </transition-group>
-                </tab>
-            </div>
-            <div class="column is-one-third">
-                <div class="mt-1">
-                    <p class="control has-icons-left has-icons-right">
-                        <input class="input is-rounded search-files"
-                            :placeholder="i18n('Filter')"
-                            v-model="query">
-                        <span class="icon is-small is-left">
-                            <fa icon="search"/>
-                        </span>
-                        <span class="icon is-small is-right clear-button"
-                            v-if="query && !loading">
-                            <a class="delete is-small"
-                                @click="query = null"/>
-                        </span>
+    <div class="file-manager"
+        v-if="folders.length">
+        <top v-model:query="query"
+            :count="files.length"
+            :filtered="filteredFiles.length"
+            @clear="query = ''"
+            @refresh="browse"/>
+        <div class="columns is-variable is-2">
+            <div class="column is-narrow py-1">
+                <div class="box folders p-1">
+                    <p class="is-family-secondary has-text-weight-medium"
+                        v-for="folder in folders">
+                        <folder :class="{'selected': folderId === folder.id}"
+                            :folder="folder"
+                            :key="folder.id"
+                            @selected="browse(folder)"/>
                     </p>
                 </div>
-                <div class="field is-grouped mt-3">
-                    <enso-uploader multiple
-                        :url="uploadUrl"
-                        file-key="upload"
-                        @upload-successful="addUploadedFiles"/>
-                    <a class="button is-fullwidth"
-                        :class="{ 'is-loading': loading }"
-                        @click="fetch()">
-                        <span>
-                            {{ i18n('Load More') }}
-                        </span>
-                        <span class="icon">
-                            <fa icon="sync-alt"/>
-                        </span>
-                    </a>
-                </div>
-                <enso-date-filter class="box raises-on-hover mt-3"
-                    v-model:filter="dateFilter"
-                    v-model:interval="interval"/>
-                <div class="box has-background-light raises-on-hover">
-                    <h5 class="title is-5 has-text-centered">
-                        {{ i18n('Storage Usage') }}:
-                        <span :class="status">
-                            {{ storageUsage }} %
-                        </span>
-                    </h5>
-                    <chart :data="chartData"
-                        type="doughnut"
-                        v-if="!isMobile && stats.filteredSpaceUsed > 0"/>
-                </div>
             </div>
+            <div class="column files">
+                <transition-group tag="div"
+                    class="columns is-multiline is-variable is-1"
+                    enter-active-class="animate__fadeIn"
+                    leave-active-class="animate__fadeOut">
+                    <div class="animate__animated column is-half py-1"
+                        v-for="file in filteredFiles"
+                        :key="file.id">
+                        <file :file="file"
+                            @delete="destroy(file)"/>
+                    </div>
+                </transition-group>
+            </div>
+            <loader large
+                v-if="loading"/>
         </div>
-    </enso-tabs>
+    </div>
 </template>
 
 <script>
-import { debounce } from 'lodash';
-import { mapState, mapGetters } from 'vuex';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSearch, faUndo, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
-import { Tab, EnsoTabs } from '@enso-ui/tabs/bulma';
-import { EnsoDateFilter } from '@enso-ui/filters/bulma';
-import { Chart } from '@enso-ui/charts/bulma';
-import { EnsoUploader } from '@enso-ui/uploader/bulma';
-import { colors } from '@enso-ui/charts';
-import { numberFormat } from '@enso-ui/mixins';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import Loader from '@enso-ui/loader/bulma';
+import Top from './components/Top.vue'
+import Folder from './components/Folder.vue'
 import File from './components/File.vue';
 
-library.add(faSearch, faUndo, faSyncAlt);
+library.add(faUpload);
 
 export default {
     name: 'Index',
 
-    components: {
-        EnsoTabs, Fa, Tab, File, Chart, EnsoDateFilter, EnsoUploader,
-    },
-
     inject: ['errorHandler', 'http', 'i18n', 'route'],
 
+    components: { Top, Folder, File, Fa, Loader },
+
     data: () => ({
-        loading: false,
-        files: [],
+        currentFolder: null,
         folders: [],
-        stats: {},
-        query: null,
-        offset: 0,
-        interval: {
-            min: null,
-            max: null,
-        },
-        dateFilter: 'today',
+        files: [],
+        loading: false,
+        query: '',
     }),
 
     computed: {
-        ...mapState('layout', ['isMobile']),
-        ...mapGetters('preferences', { locale: 'lang' }),
-        uploadUrl() {
-            return this.route('core.uploads.store');
+        filteredFiles() {
+            return this.query
+                ? this.files.filter(({ name }) => name.toLowerCase()
+                    .indexOf(this.query.toLowerCase()) > -1)
+                : this.files;
         },
-        colors() {
-            return colors.slice(0, this.folders.length);
+        folderId() {
+            return this.currentFolder?.id;
         },
-        foldersStats() {
-            return this.folders.map(folder => this.content(folder)
-                .reduce((total, { size }) => (total += size), 0));
-        },
-        chartData() {
-            return {
-                labels: this.folders,
-                datasets: [{
-                    data: this.foldersStats,
-                    backgroundColor: this.colors,
-                    datalabels: {
-                        backgroundColor: this.colors,
-                        formatter: val => `${numberFormat(val / 1000)} KB`,
-                    },
-                }],
-            };
-        },
-        storageUsage() {
-            return this.stats.totalSpaceUsed
-                && numberFormat(this.stats.totalSpaceUsed * 100 / this.stats.storageLimit, 2);
-        },
-        status() {
-            return this.storageUsage < 95
-                ? 'has-text-success'
-                : 'has-text-danger';
-        },
-    },
-
-    watch: {
-        query: 'reset',
-        dateFilter: 'reset',
     },
 
     created() {
-        this.fetch = debounce(this.fetch, 300);
-
         this.fetch();
     },
 
     methods: {
-        reset() {
-            this.files = [];
-            this.offset = 0;
-            this.fetch();
+        browse(folder = this.currentFolder) {
+            this.currentFolder = folder;
+
+            const { isSystem, endpoint, id } = folder;
+
+            const path = isSystem 
+                ? this.route(`core.files.${endpoint}`)
+                : this.route('core.files.browse', id);
+
+            this.loading = true;
+
+            this.http.get(path)
+                .then(({ data }) => this.files = data)
+                .catch(this.errorHandler)
+                .finally(() => (this.loading = false));
+        },
+        destroy({ id }) {
+            this.loading = true;
+
+            const index = id => this.files.findIndex(file => file.id === id);
+
+            this.http.delete(this.route('core.files.destroy', id, false))
+                .then(() => this.files.splice(index(id), 1))
+                .catch(this.errorHandler)
+                .finally(() => (this.loading = false));
         },
         fetch() {
             this.loading = true;
-            const { interval, query, offset } = this;
-            const payload = { params: { interval, query, offset } };
 
-            this.http.get(this.route('core.files.index'), payload)
-                .then(({ data }) => {
-                    this.files.push(...data.data);
-                    this.offset += data.data.length;
-                    this.folders = data.folders;
-                    this.stats = data.stats;
+            this.http.get(this.route('core.files.index'))
+                .then(({ data: { folders } }) => {
+                    this.folders = folders;
+                    if (folders.length > 0) {
+                        this.browse(folders[0]);
+                    }
                 }).catch(this.errorHandler)
                 .finally(() => (this.loading = false));
-        },
-        destroy(id) {
-            this.loading = true;
-
-            this.http.delete(this.route('core.files.destroy', id, false))
-                .then(() => {
-                    const index = this.files.findIndex(file => file.id === id);
-                    this.files.splice(index, 1);
-                }).catch(this.errorHandler)
-                .finally(() => (this.loading = false));
-        },
-        content(folder) {
-            return this.files.filter(({ type }) => type === folder);
-        },
-        addUploadedFiles(files) {
-            this.files.push(...files);
-        },
-        computeScrollPosition(event) {
-            const position = event.target.scrollTop;
-            const total = event.target.scrollHeight - event.target.clientHeight;
-
-            if (position / total > 0.8) {
-                this.fetch();
-            }
         },
     },
 };
 </script>
 
 <style lang="scss">
-    .files-index {
-        input.search-files {
-            width: 100%;
+    .file-manager {
+        .control.has-icons-right {
+            .icon.clear-button {
+                pointer-events: all;
+            }
+
+            .input {
+                width: 20em;
+            }
         }
 
-        .control.has-icons-right .icon.clear-button {
-            pointer-events: all;
+        .folders {
+            .button {
+                .icon {
+                    width: 2em;
+                }
+            }
         }
 
-        .tag.file-counter {
-            height: unset;
+        .box.folders {
+            .selected {
+                opacity: 1;
+            }
         }
-    }
+    }    
 </style>

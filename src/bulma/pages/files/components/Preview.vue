@@ -1,5 +1,5 @@
 <template>
-    <modal class="preview-modal">
+    <modal class="file-preview">
         <div class="box has-background-light">
             <div class="detail">
                 <strong class="name">{{ file.name }}</strong>
@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss">
-    .modal.preview-modal{
+    .modal.file-preview{
         iframe {
             flex: 1;
         }

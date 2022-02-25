@@ -1,96 +1,62 @@
 <template>
-    <div class="box has-background-light raises-on-hover file-box p-3">
-        <figure class="image is-32x32 avatar">
-            <img class="is-rounded"
-                :src="route('core.avatars.show', file.owner.avatar.id)">
-        </figure>
-        <p class="has-text-centered mb-2">
-            <fa :icon="icon"
-                size="3x"/>
-        </p>
-        <h5 class="title is-5 filename has-text-centered"
-            v-tooltip="file.name">
-            {{ file.name }}
-        </h5>
-        <p class="has-text-centered"
-           v-tooltip="date(file.createdAt)">
-            <span class="icon is-small">
-                <fa icon="calendar-alt"/>
-            </span>
-            {{ timeFromNow(file.createdAt) }}
-        </p>
-        <p class="mt-1 has-text-centered">
-            <span class="icon is-small">
-                <fa icon="database"/>
-            </span>
-            {{ size }} KB
-        </p>
-        <div class="has-text-centered mt-2">
-            <div class="details">
-                <a class="button is-naked"
-                    v-if="file.isShareable && canAccess('core.files.link')"
-                    @click.stop="link">
-                    <span class="icon">
-                        <fa icon="link"/>
-                    </span>
-                </a>
-                <a class="button is-naked"
-                    @click.stop="show"
-                    v-if="file.isViewable && canAccess('core.files.show')">
-                    <span class="icon">
-                        <fa icon="eye"/>
-                    </span>
-                </a>
-                <a class="button is-naked"
-                    :href="route('core.files.download', file.id)"
-                    v-if="file.isViewable && canAccess('core.files.download')">
-                    <span class="icon">
-                        <fa icon="cloud-download-alt"/>
-                    </span>
-                </a>
-                <confirmation placement="top"
-                    @confirm="$emit('delete')"
-                    v-if="file.isDestroyable && canAccess('core.files.destroy')">
-                    <a class="button is-naked">
-                        <span class="icon">
-                            <fa icon="trash-alt"/>
-                        </span>
-                    </a>
-                </confirmation>
+    <div class="box file-box raises-on-hover p-2 mb-1"
+        @mouseenter="hovering = true"
+        @mouseleave="hovering = false">
+        <div class="level is-mobile m-0">
+            <div class="level-left is-flex-shrink-1">
+                <div class="level-item">
+                    <p class="has-text-centered">
+                        <fa :icon="icon"
+                            size="2x"/>
+                    </p>
+                </div>
+                <div class="filename level-item is-flex-direction-column
+                    is-align-items-flex-start is-flex-shrink-1">
+                    <p class="has-text-weight-bold">
+                        {{ file.name }}
+                    </p>
+                    <p class="is-family-code">
+                        {{ file.size }}, {{ timestamp }}
+                    </p>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item is-flex-direction-column">
+                    <actions class="is-align-self-flex-end"
+                        v-bind="$attrs"
+                        :file="file"
+                        :hovering="hovering"
+                        @copy-to-clipboard="showMessage"/>
+                    <div class="is-flex is-align-self-flex-end">
+                        <fade>
+                            <p class="has-text-success mr-2"
+                                v-if="message">
+                                {{ message }}
+                            </p>
+                        </fade>
+                        <avatar class="is-24x24"
+                            :user="file.owner"/>
+                    </div>
+                </div>
             </div>
         </div>
-        <url :show="temporaryLink !== ''"
-            :link="temporaryLink"
-            @close="temporaryLink = ''"/>
-        <preview :file="preview"
-            v-if="preview"
-            @close="preview = null"/>
     </div>
 </template>
 
 <script>
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-    faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase,
-} from '@fortawesome/free-solid-svg-icons';
-import Confirmation from '@enso-ui/confirmation/bulma';
+import Avatar from '@enso-ui/users/src/bulma/pages/users/components/Avatar.vue';
+import { Fade } from '@enso-ui/transitions';
 import { EnsoFile, numberFormat } from '@enso-ui/mixins';
-import formatDistance from '@enso-ui/ui/src/modules/plugins/date-fns/formatDistance';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
-import Url from './Url.vue';
-import Preview from './Preview.vue';
-
-library.add(faEye, faCloudDownloadAlt, faTrashAlt, faLink, faCalendarAlt, faDatabase);
+import Actions from './Actions.vue';
 
 export default {
     name: 'File',
 
-    components: {
-        Confirmation, Fa, Url, Preview,
-    },
+    components: { Fade, Actions, Fa, Avatar },
 
-    inject: ['canAccess', 'errorHandler', 'http', 'route'],
+    inject: ['errorHandler', 'http', 'route'],
 
     props: {
         file: {
@@ -99,68 +65,60 @@ export default {
         },
     },
 
-    emits: ['delete'],
-
     data: () => ({
-        preview: null,
-        temporaryLink: '',
+        hovering: false,
+        message: null,
     }),
 
     computed: {
         icon() {
-            const file = new EnsoFile(this.file.name);
-
-            return file.icon();
+            return (new EnsoFile(this.file.name)).icon();
         },
-        size() {
-            return numberFormat(this.file.size / 1000);
-        },
+        timestamp() {
+            return format(this.file.createdAt, 'd M Y h:i');
+        }
     },
 
     methods: {
-        link() {
-            this.http.get(this.route('core.files.link', this.file.id))
-                .then(({ data }) => (this.temporaryLink = data.link))
-                .catch(this.errorHandler);
-        },
-        show() {
-            if (this.file.mimeType === 'application/pdf') {
-                this.preview = this.file;
-                return;
-            }
+        showMessage(message) {
+            this.message = message;
 
-            window.open(this.route('core.files.show', this.file.id), '_blank').focus();
-        },
-        timeFromNow(date) {
-            return formatDistance(date);
-        },
-        date(date) {
-            return format(date);
+            setTimeout(() => (this.message = null), 2500);
         },
     },
 };
 </script>
 
-<style lang="scss" scoped>
-    .file-box {
-        position: relative;
+<style lang="scss">
+    .box.file-box {
         cursor: pointer;
+        max-width: 600px;
 
-        .avatar {
-            position: absolute;
-            top: .6em;
-            left: .6em;
-        }
+        .level {
+            .level-left {
+                min-width: 0;
 
-        .details {
-            display: flex;
-            justify-content: center;
-        }
+                .filename {
+                    min-width: 0;
 
-        .title.filename {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+                    p {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        max-width: 100%;
+                    }
+                }
+            }
+
+            .level-right {
+                .v-popper__inner {
+                    padding: 1px;
+                }
+
+                .image.avatar {
+                    margin: 0 0 0 auto;
+                }
+            }
         }
     }
 </style>
