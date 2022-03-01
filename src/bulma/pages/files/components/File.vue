@@ -35,7 +35,11 @@
                             </p>
                         </fade>
                         <avatar class="is-24x24"
-                            :user="file.owner"/>
+                            tooltip
+                            :user="file.owner"
+                            v-if="file.owner"/>
+                        <figure class="image is-24x24"
+                            v-else/>
                     </div>
                 </div>
             </div>
@@ -47,7 +51,7 @@
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import Avatar from '@enso-ui/users/src/bulma/pages/users/components/Avatar.vue';
 import { Fade } from '@enso-ui/transitions';
-import { EnsoFile, numberFormat } from '@enso-ui/mixins';
+import { EnsoFile } from '@enso-ui/mixins';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import Actions from './Actions.vue';
 

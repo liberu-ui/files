@@ -7,4 +7,5 @@ import {
 
 library.add(faFolderOpen, faPhotoVideo, faFolderPlus, faFolder,
     faFileImport,faFileUpload, faFileExport, faStar, faShare,
-    faShareAlt, faExclamationTriangle, faFileContract, faImage, faCopyright);
+    faShareAlt, faExclamationTriangle, faFileContract, faImage,
+    faCopyright);

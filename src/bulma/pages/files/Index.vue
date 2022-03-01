@@ -2,10 +2,13 @@
     <div class="file-manager"
         v-if="folders.length">
         <top v-model:query="query"
+            v-model:interval="interval"
             :count="files.length"
-            :filtered="filteredFiles.length"
-            @clear="query = ''"
-            @refresh="browse"/>
+            @clear="query = '';fetch()"
+            @refresh="browse"
+            @update:query="browse"
+            @update:interval="browse"
+            @upload-successful="select(uploadFolder)"/>
         <div class="columns is-variable is-2">
             <div class="column is-narrow py-1">
                 <div class="box folders p-1">
@@ -14,7 +17,7 @@
                         <folder :class="{'selected': folderId === folder.id}"
                             :folder="folder"
                             :key="folder.id"
-                            @selected="browse(folder)"/>
+                            @selected="select(folder)"/>
                     </p>
                 </div>
             </div>
@@ -24,7 +27,7 @@
                     enter-active-class="animate__fadeIn"
                     leave-active-class="animate__fadeOut">
                     <div class="animate__animated column is-half py-1"
-                        v-for="file in filteredFiles"
+                        v-for="file in files"
                         :key="file.id">
                         <file :file="file"
                             @delete="destroy(file)"/>
@@ -41,6 +44,7 @@
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { debounce } from 'lodash';
 import Loader from '@enso-ui/loader/bulma';
 import Top from './components/Top.vue'
 import Folder from './components/Folder.vue'
@@ -59,39 +63,40 @@ export default {
         currentFolder: null,
         folders: [],
         files: [],
+        interval: {
+            min: null,
+            max: null,
+        },
         loading: false,
         query: '',
     }),
 
     computed: {
-        filteredFiles() {
-            return this.query
-                ? this.files.filter(({ name }) => name.toLowerCase()
-                    .indexOf(this.query.toLowerCase()) > -1)
-                : this.files;
-        },
         folderId() {
             return this.currentFolder?.id;
+        },
+        uploadFolder() {
+            return this.folders.find(({ isUpload }) => isUpload);
         },
     },
 
     created() {
+        this.browse = debounce(this.browse, 350);
         this.fetch();
     },
 
     methods: {
-        browse(folder = this.currentFolder) {
-            this.currentFolder = folder;
+        browse() {
+            const { isSystem, endpoint, id } = this.currentFolder;
+            const { interval, query } = this;
 
-            const { isSystem, endpoint, id } = folder;
-
-            const path = isSystem 
+            const path = isSystem
                 ? this.route(`core.files.${endpoint}`)
                 : this.route('core.files.browse', id);
 
             this.loading = true;
 
-            this.http.get(path)
+            this.http.get(path, { params: { interval, query } })
                 .then(({ data }) => this.files = data)
                 .catch(this.errorHandler)
                 .finally(() => (this.loading = false));
@@ -113,10 +118,14 @@ export default {
                 .then(({ data: { folders } }) => {
                     this.folders = folders;
                     if (folders.length > 0) {
-                        this.browse(folders[0]);
+                        this.select(folders[0]);
                     }
                 }).catch(this.errorHandler)
                 .finally(() => (this.loading = false));
+        },
+        select(folder) {
+            this.currentFolder = folder;
+            this.browse();
         },
     },
 };
@@ -147,5 +156,5 @@ export default {
                 opacity: 1;
             }
         }
-    }    
+    }
 </style>
