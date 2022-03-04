@@ -91,7 +91,7 @@ export default {
 
     computed: {
         icon() {
-            return (new EnsoFile(this.file.name)).icon();
+            return (new EnsoFile(this.file)).icon();
         },
         timestamp() {
             return format(this.file.createdAt, 'd M Y h:i');

@@ -42,7 +42,7 @@
                 </dropdown>
                 <a class="button is-small is-naked"
                     @click="show"
-                    v-if="file.isViewable && canAccess('core.files.show')">
+                    v-if="isViewable">
                     <span class="icon is-small">
                         <fa icon="eye"/>
                     </span>
@@ -133,7 +133,14 @@ export default {
         handling: false,
     }),
 
-    computed: mapState(['enums']),
+    computed: {
+        ...mapState(['enums']),
+        isViewable() {
+            return this.file.isAccessible
+                && (new EnsoFile(this.file)).isViewable()
+                && this.canAccess('core.files.show');
+        },
+    },
 
     methods: {
         copyToClipboard({ data: { link } }) {
