@@ -12,8 +12,18 @@
                 </div>
                 <div class="filename level-item is-flex-direction-column
                     is-align-items-flex-start is-flex-shrink-1">
-                    <p class="has-text-weight-bold">
-                        {{ file.name }}
+                    <input class="input"
+                        v-model="file.name"
+                        v-click-outside="cancelEdit"
+                        v-focus
+                        v-select-on-focus
+                        @keydown.enter="update"
+                        @keydown.esc="cancelEdit"
+                        v-if="editing">
+                    <p class="has-text-weight-bold"
+                        @click.right.prevent="edit"
+                        v-else>
+                        {{ file.name }}.{{ file.extension }}
                     </p>
                     <p class="is-family-code">
                         {{ file.size }}, {{ timestamp }}
@@ -52,11 +62,14 @@ import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import Avatar from '@enso-ui/users/src/bulma/pages/users/components/Avatar.vue';
 import { Fade } from '@enso-ui/transitions';
 import { EnsoFile } from '@enso-ui/mixins';
+import { clickOutside, focus, selectOnFocus } from '@enso-ui/directives';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import Actions from './Actions.vue';
 
 export default {
     name: 'File',
+
+    directives: { clickOutside, focus, selectOnFocus },
 
     components: { Fade, Actions, Fa, Avatar },
 
@@ -69,9 +82,11 @@ export default {
         },
     },
 
-    data: () => ({
+    data: v => ({
+        editing: false,
         hovering: false,
         message: null,
+        originalName: v.file.name,
     }),
 
     computed: {
@@ -84,10 +99,31 @@ export default {
     },
 
     methods: {
+        cancelEdit() {
+            this.file.name = this.originalName;
+            this.editing = false;
+        },
+        edit() {
+            if (this.file.isManageable) {
+                this.editing = true;
+            }
+        },
         showMessage(message) {
             this.message = message;
 
             setTimeout(() => (this.message = null), 2500);
+        },
+        update() {
+            if (this.file.name === '' || this.file.name.length > 255) {
+                return;
+            }
+
+            const { id, name } = this.file;
+
+            this.http.patch(this.route('core.files.update', id), { name })
+                .then(() => (this.originalName = this.file.name))
+                .catch(this.errorHandler)
+                .finally(() => (this.editing = false));
         },
     },
 };
