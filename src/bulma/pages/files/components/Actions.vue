@@ -127,7 +127,8 @@ export default {
 
     emits: ['copy-to-clipboard', 'delete'],
 
-    data: () => ({
+    data: v => ({
+        ensoFile: new EnsoFile(v.file),
         message: null,
         preview: false,
         handling: false,
@@ -137,7 +138,7 @@ export default {
         ...mapState(['enums']),
         isViewable() {
             return this.file.isAccessible
-                && (new EnsoFile(this.file)).isViewable()
+                && this.ensoFile.isViewable()
                 && this.canAccess('core.files.show');
         },
     },
@@ -154,10 +155,11 @@ export default {
                 .catch(this.errorHandler);
         },
         show() {
-            if (this.file.mimeType === 'application/pdf') {
+            if (this.ensoFile.isViewable()) {
                 this.preview = true;
             } else {
-                window.open(this.route('core.files.show', this.file.id), '_blank').focus();
+                const path = this.route('core.files.show', this.file.id);
+                window.open(path, '_blank').focus();
             }
 
         },
