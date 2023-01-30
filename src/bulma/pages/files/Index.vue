@@ -13,7 +13,8 @@
             <div class="column is-narrow py-1">
                 <div class="box folders p-1">
                     <p class="is-family-secondary has-text-weight-medium"
-                        v-for="folder in browsable">
+                        v-for="folder in browsable"
+                        :key="folder">
                         <folder :class="{'selected': folderId === folder.id}"
                             :folder="folder"
                             :key="folder.id"
@@ -42,23 +43,18 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { debounce } from 'lodash';
 import Loader from '@enso-ui/loader/bulma';
 import Top from './components/Top.vue'
 import Folder from './components/Folder.vue'
 import File from './components/File.vue';
 
-library.add(faUpload);
-
 export default {
     name: 'Index',
 
     inject: ['errorHandler', 'http', 'i18n', 'route'],
 
-    components: { Top, Folder, File, Fa, Loader },
+    components: { Top, Folder, File, Loader },
 
     data: () => ({
         currentFolder: null,
