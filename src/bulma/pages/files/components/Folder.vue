@@ -8,6 +8,7 @@
         <span>
             {{ i18n(folder.name) }}
         </span>
+        <span v-if="count > 0">&nbsp;({{ count }})</span>
     </a>
 </template>
 
@@ -22,6 +23,10 @@ export default {
     inject: ['i18n'],
 
     props: {
+        count: {
+            type: Number,
+            default: 0,
+        },
         folder: {
             type: Object,
             required: true,
