@@ -1,6 +1,6 @@
 <template>
     <div class="file-manager"
-        v-if="folders.length">
+        v-if="browsable.length">
         <top v-model:query="query"
             v-model:interval="interval"
             :count="files.length"
@@ -13,7 +13,7 @@
             <div class="column is-narrow py-1">
                 <div class="box folders p-1">
                     <p class="is-family-secondary has-text-weight-medium"
-                        v-for="folder in folders">
+                        v-for="folder in browsable">
                         <folder :class="{'selected': folderId === folder.id}"
                             :folder="folder"
                             :key="folder.id"
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
@@ -61,7 +62,6 @@ export default {
 
     data: () => ({
         currentFolder: null,
-        folders: [],
         files: [],
         interval: {
             min: null,
@@ -72,23 +72,21 @@ export default {
     }),
 
     computed: {
+        ...mapGetters('files', ['browsable', 'uploadFolder']),
         folderId() {
             return this.currentFolder?.id;
-        },
-        uploadFolder() {
-            return this.folders.find(({ isUpload }) => isUpload);
         },
     },
 
     created() {
         this.browse = debounce(this.browse, 350);
-        this.fetch();
+        this.select(this.browsable[0]);
     },
 
     methods: {
         browse() {
-            const { isSystem, endpoint, id } = this.currentFolder;
-            const { interval, query } = this;
+            const { interval, query, currentFolder } = this;
+            const { isSystem, endpoint, id } = currentFolder;
 
             const path = isSystem
                 ? this.route(`core.files.${endpoint}`)
@@ -97,7 +95,7 @@ export default {
             this.loading = true;
 
             this.http.get(path, { params: { interval, query } })
-                .then(({ data }) => this.files = data)
+                .then(({ data }) => (this.files = data))
                 .catch(this.errorHandler)
                 .finally(() => (this.loading = false));
         },
@@ -109,18 +107,6 @@ export default {
             this.http.delete(this.route('core.files.destroy', id, false))
                 .then(() => this.files.splice(index(id), 1))
                 .catch(this.errorHandler)
-                .finally(() => (this.loading = false));
-        },
-        fetch() {
-            this.loading = true;
-
-            this.http.get(this.route('core.files.index'))
-                .then(({ data: { folders } }) => {
-                    this.folders = folders;
-                    if (folders.length > 0) {
-                        this.select(folders[0]);
-                    }
-                }).catch(this.errorHandler)
                 .finally(() => (this.loading = false));
         },
         select(folder) {
