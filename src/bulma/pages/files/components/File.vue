@@ -132,6 +132,7 @@ export default {
 <style lang="scss">
     .box.file-box {
         cursor: pointer;
+        max-width: 600px;
 
         .level {
             .level-left {
