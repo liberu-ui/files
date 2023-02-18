@@ -1,42 +1,50 @@
 <template>
-    <div class="box file-box raises-on-hover p-2 mb-1"
+    <div class="box file-box raises-on-hover p-1 mb-1"
         @mouseenter="hovering = true"
         @mouseleave="hovering = false">
         <div class="level is-mobile m-0">
             <div class="level-left is-flex-shrink-1">
-                <div class="level-item">
+                <div class="level-item is-narrow mr-2">
                     <p class="has-text-centered">
                         <fa :icon="icon"
                             size="2x"/>
                     </p>
                 </div>
-                <div class="filename level-item is-flex-direction-column
+                <div class="level-item is-flex-direction-column
                     is-align-items-flex-start is-flex-shrink-1">
-                    <input class="input"
-                        v-model="file.name"
-                        v-click-outside="cancelEdit"
-                        v-focus
-                        v-select-on-focus
-                        @keydown.enter="update"
-                        @keydown.esc="cancelEdit"
-                        v-if="editing">
-                    <p class="has-text-weight-bold"
-                        @click.right.prevent="edit"
-                        v-else>
-                        {{ file.name }}.{{ file.extension }}
-                    </p>
-                    <p class="is-family-code">
+                    <div class="filename has-text-weight-bold is-flex">
+                        <input class="input"
+                            v-model="file.name"
+                            v-click-outside="cancelEdit"
+                            v-focus
+                            v-select-on-focus
+                            @keydown.enter="update"
+                            @keydown.esc="cancelEdit"
+                            v-if="editing">
+                        <p class="base"
+                            @click.right.prevent="edit"
+                            v-else>
+                            {{ file.name }}.
+                        </p>    
+                        <p class="extension"
+                            @click.right.prevent="edit"
+                            v-if="!editing">
+                            {{ file.extension }}
+                        </p>    
+                    </div>
+                    <p class="info is-family-code">
                         {{ file.size }}, {{ timestamp }}
                     </p>
                 </div>
             </div>
-            <div class="level-right">
+            <div class="level-right is-narrow">
                 <div class="level-item is-flex-direction-column">
                     <actions class="is-align-self-flex-end"
                         v-bind="$attrs"
                         :file="file"
                         :hovering="hovering"
-                        @copy-to-clipboard="showMessage"/>
+                        @copy-to-clipboard="showMessage"
+                        v-if="!editing"/>
                     <div class="is-flex is-align-self-flex-end">
                         <fade>
                             <p class="has-text-success mr-2"
@@ -132,22 +140,17 @@ export default {
 <style lang="scss">
     .box.file-box {
         cursor: pointer;
-        max-width: 600px;
 
         .level {
             .level-left {
-                min-width: 0;
-
-                .filename {
-                    min-width: 0;
-
-                    p {
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        max-width: 100%;
-                    }
+                .filename .base, .info {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 1;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
+                
             }
 
             .level-right {
