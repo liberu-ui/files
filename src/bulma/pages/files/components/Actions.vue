@@ -1,74 +1,71 @@
 <template>
     <div class="is-flex">
-        <fade>
-            <div class="is-flex"
-                v-if="hovering || handling">
-                <template v-if="file.isManageable">
-                    <a class="button is-small is-naked"
-                        @click="makePrivate"
-                        v-if="file.isPublic && canAccess('core.files.makePrivate')">
-                        <span class="icon is-small">
-                            <fa icon="unlock"/>
-                        </span>
-                    </a>
-                    <a class="button is-small is-naked"
-                        @click="makePublic"
-                        v-else-if="!file.isPublic && canAccess('core.files.makePublic')">
-                        <span class="icon is-small">
-                            <fa icon="lock"/>
-                        </span>
-                    </a>
+        <template v-if="visible || handling">
+            <template v-if="file.isManageable">
+                <a class="button is-small is-naked"
+                    @click="makePrivate"
+                    v-if="file.isPublic && canAccess('core.files.makePrivate')">
+                    <span class="icon is-small">
+                        <fa icon="unlock"/>
+                    </span>
+                </a>
+                <a class="button is-small is-naked"
+                    @click="makePublic"
+                    v-else-if="!file.isPublic && canAccess('core.files.makePublic')">
+                    <span class="icon is-small">
+                        <fa icon="lock"/>
+                    </span>
+                </a>
+            </template>
+            <dropdown v-if="file.isAccessible && canAccess('core.files.link')"
+                ref="dropdown"
+                @hide="handling = false">
+                <a class="button is-small is-naked"
+                    @click="handling = true">
+                    <span class="icon is-small">
+                        <fa icon="link"/>
+                    </span>
+                </a>
+                <template #popper>
+                    <ul>
+                        <li v-for="{ value, label } in enums.temporaryLinkDuration._filter()"
+                            :key="value">
+                            <button class="button is-small is-fullwidth"
+                                @click="$refs.dropdown.hide(); link(value)">
+                                {{ label }}
+                            </button>
+                        </li>
+                    </ul>
                 </template>
-                <dropdown v-if="file.isAccessible && canAccess('core.files.link')"
-                    ref="dropdown"
-                    @hide="handling = false">
-                    <a class="button is-small is-naked"
-                        @click="handling = true">
-                        <span class="icon is-small">
-                            <fa icon="link"/>
-                        </span>
-                    </a>
-                    <template #popper>
-                        <ul>
-                            <li v-for="{ value, label } in enums.temporaryLinkDuration._filter()"
-                                :key="value">
-                                <button class="button is-small is-fullwidth"
-                                    @click="$refs.dropdown.hide(); link(value)">
-                                    {{ label }}
-                                </button>
-                            </li>
-                        </ul>
-                    </template>
-                </dropdown>
+            </dropdown>
+            <a class="button is-small is-naked"
+                @click="show"
+                v-if="isViewable">
+                <span class="icon is-small">
+                    <fa icon="eye"/>
+                </span>
+            </a>
+            <a class="button is-small is-naked"
+                :href="route('core.files.download', file.id)"
+                v-if="file.isAccessible && canAccess('core.files.download')">
+                <span class="icon is-small">
+                    <fa icon="cloud-download-alt"/>
+                </span>
+            </a>
+            <confirmation placement="left"
+                @confirm="$emit('delete')"
+                @hide="handling = false"
+                v-if="file.isManageable && canAccess('core.files.destroy')">
                 <a class="button is-small is-naked"
-                    @click="show"
-                    v-if="isViewable">
+                    @click="handling = true">
                     <span class="icon is-small">
-                        <fa icon="eye"/>
+                        <fa icon="trash-alt"/>
                     </span>
                 </a>
-                <a class="button is-small is-naked"
-                    :href="route('core.files.download', file.id)"
-                    v-if="file.isAccessible && canAccess('core.files.download')">
-                    <span class="icon is-small">
-                        <fa icon="cloud-download-alt"/>
-                    </span>
-                </a>
-                <confirmation placement="left"
-                    @confirm="$emit('delete')"
-                    @hide="handling = false"
-                    v-if="file.isManageable && canAccess('core.files.destroy')">
-                    <a class="button is-small is-naked"
-                        @click="handling = true">
-                        <span class="icon is-small">
-                            <fa icon="trash-alt"/>
-                        </span>
-                    </a>
-                </confirmation>
-            </div>
-        </fade>
+            </confirmation>
+        </template>
         <a class="button is-small is-naked"
-            v-if="canAccess('core.files.favorite')"
+            v-if="canAccess('core.files.favorite') && file.type.isBrowsable"
             @click="toggleFavorite">
             <span class="icon is-small"
                 v-if="file.isFavorite">
@@ -77,6 +74,12 @@
             <span class="icon is-small"
                 v-else>
                 <fa :icon="['far', 'star']"/>
+            </span>
+        </a>
+        <a class="button is-small is-naked"
+            @click="$emit(visible ? 'hide' : 'show')">
+            <span class="icon is-small">
+                <fa icon="ellipsis-h"/>
             </span>
         </a>
         <clipboard ref="clipboard"/>
@@ -91,20 +94,20 @@ import { mapState } from 'vuex';
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-    faEye, faCloudDownloadAlt, faTrashAlt, faLink, faStar, faLock, faUnlock,
+    faEye, faCloudDownloadAlt, faTrashAlt, faLink,
+    faStar, faLock, faUnlock, faEllipsisH,
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import Confirmation from '@enso-ui/confirmation/bulma';
 import Clipboard from '@enso-ui/clipboard';
 import { Fade } from '@enso-ui/transitions';
-import { EnsoFile, numberFormat } from '@enso-ui/mixins';
+import { EnsoFile } from '@enso-ui/mixins';
 import { Dropdown } from 'v-tooltip';
-import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
 import Preview from './Preview.vue';
 
 library.add([
     faEye, faCloudDownloadAlt, faTrashAlt, faLink,
-    faStar, farStar, faLock, faUnlock,
+    faStar, farStar, faLock, faUnlock, faEllipsisH,
 ]);
 
 export default {
@@ -115,7 +118,7 @@ export default {
     inject: ['canAccess', 'errorHandler', 'http', 'i18n', 'route'],
 
     props: {
-        hovering: {
+        visible: {
             type: Boolean,
             required: true,
         },
@@ -125,7 +128,7 @@ export default {
         },
     },
 
-    emits: ['copy-to-clipboard', 'delete'],
+    emits: ['copy-to-clipboard', 'delete', 'hide', 'show'],
 
     data: v => ({
         ensoFile: new EnsoFile(v.file),

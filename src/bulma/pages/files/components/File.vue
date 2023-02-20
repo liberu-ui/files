@@ -1,7 +1,6 @@
 <template>
     <div class="box file-box raises-on-hover p-1 mb-1"
-        @mouseenter="hovering = true"
-        @mouseleave="hovering = false">
+        v-click-outside="() => actions = false">
         <div class="level is-mobile m-0">
             <div class="level-left is-flex-shrink-1">
                 <div class="level-item is-narrow mr-2">
@@ -10,9 +9,9 @@
                             size="2x"/>
                     </p>
                 </div>
-                <div class="level-item is-flex-direction-column
-                    is-align-items-flex-start is-flex-shrink-1">
-                    <div class="filename has-text-weight-bold is-flex">
+                <div class="level-item is-flex-direction-column is-align-items-flex-start
+                    is-flex-shrink-1">
+                    <div class="filename has-text-weight-bold">
                         <input class="input"
                             v-model="file.name"
                             v-click-outside="cancelEdit"
@@ -21,16 +20,16 @@
                             @keydown.enter="update"
                             @keydown.esc="cancelEdit"
                             v-if="editing">
-                        <p class="base"
+                        <span class="base"
                             @click.right.prevent="edit"
                             v-else>
                             {{ file.name }}.
-                        </p>    
-                        <p class="extension"
+                        </span>    
+                        <span class="extension"
                             @click.right.prevent="edit"
                             v-if="!editing">
                             {{ file.extension }}
-                        </p>    
+                        </span>    
                     </div>
                     <p class="info is-family-code">
                         {{ file.size }}, {{ timestamp }}
@@ -40,18 +39,18 @@
             <div class="level-right is-narrow">
                 <div class="level-item is-flex-direction-column">
                     <actions class="is-align-self-flex-end"
-                        v-bind="$attrs"
                         :file="file"
-                        :hovering="hovering"
+                        :visible="actions"
                         @copy-to-clipboard="showMessage"
+                        @show="actions = true"
+                        @hide="actions = false"
+                        v-bind="$attrs"
                         v-if="!editing"/>
                     <div class="is-flex is-align-self-flex-end">
-                        <fade>
-                            <p class="has-text-success mr-2"
-                                v-if="message">
-                                {{ message }}
-                            </p>
-                        </fade>
+                        <p class="has-text-success mr-2"
+                            v-if="message">
+                            {{ message }}
+                        </p>
                         <avatar class="is-24x24"
                             tooltip
                             :user="file.owner"
@@ -68,7 +67,6 @@
 <script>
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import Avatar from '@enso-ui/users/src/bulma/pages/users/components/Avatar.vue';
-import { Fade } from '@enso-ui/transitions';
 import { EnsoFile } from '@enso-ui/mixins';
 import { clickOutside, focus, selectOnFocus } from '@enso-ui/directives';
 import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
@@ -79,7 +77,7 @@ export default {
 
     directives: { clickOutside, focus, selectOnFocus },
 
-    components: { Fade, Actions, Fa, Avatar },
+    components: { Actions, Fa, Avatar },
 
     inject: ['errorHandler', 'http', 'route'],
 
@@ -92,7 +90,7 @@ export default {
 
     data: v => ({
         editing: false,
-        hovering: false,
+        actions: false,
         message: null,
         originalName: v.file.name,
     }),
@@ -143,16 +141,8 @@ export default {
 
         .level {
             .level-left {
-                .filename .base, .info {
-                    display: -webkit-box;
-                    -webkit-line-clamp: 1;
-                    -webkit-box-orient: vertical;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-                
+                overflow: hidden;
             }
-
             .level-right {
                 .v-popper__inner {
                     padding: 1px;
