@@ -142,6 +142,10 @@ export default {
         .level {
             .level-left {
                 overflow: hidden;
+
+                .filename .base, .info {
+                    word-break: break-all;
+                }
             }
             .level-right {
                 .v-popper__inner {
