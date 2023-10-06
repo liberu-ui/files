@@ -45,7 +45,7 @@ import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { debounce } from 'lodash';
-import Loader from '@enso-ui/loader/bulma';
+import Loader from '@liberu-ui/loader/bulma';
 import Top from './components/Top.vue'
 import Folder from './components/Folder.vue'
 import File from './components/File.vue';
