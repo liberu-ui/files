@@ -55,8 +55,8 @@
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch, faSync } from '@fortawesome/free-solid-svg-icons';
-import { EnsoUploader } from '@enso-ui/uploader/bulma';
-import { EnsoDateFilter } from '@enso-ui/filters/bulma';
+import { EnsoUploader } from '@liberu-ui/uploader/bulma';
+import { EnsoDateFilter } from '@liberu-ui/filters/bulma';
 
 library.add(faSearch, faSync);
 

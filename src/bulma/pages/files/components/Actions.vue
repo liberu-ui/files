@@ -94,12 +94,12 @@ import {
     faEye, faCloudDownloadAlt, faTrashAlt, faLink, faStar, faLock, faUnlock,
 } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import Confirmation from '@enso-ui/confirmation/bulma';
-import Clipboard from '@enso-ui/clipboard';
-import { Fade } from '@enso-ui/transitions';
-import { EnsoFile, numberFormat } from '@enso-ui/mixins';
+import Confirmation from '@liberu-ui/confirmation/bulma';
+import Clipboard from '@liberu-ui/clipboard';
+import { Fade } from '@liberu-ui/transitions';
+import { EnsoFile, numberFormat } from '@liberu-ui/mixins';
 import { Dropdown } from 'v-tooltip';
-import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
+import format from '@liberu-ui/ui/src/modules/plugins/date-fns/format';
 import Preview from './Preview.vue';
 
 library.add([

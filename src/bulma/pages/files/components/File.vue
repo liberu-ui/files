@@ -59,11 +59,11 @@
 
 <script>
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
-import Avatar from '@enso-ui/users/src/bulma/pages/users/components/Avatar.vue';
-import { Fade } from '@enso-ui/transitions';
-import { EnsoFile } from '@enso-ui/mixins';
-import { clickOutside, focus, selectOnFocus } from '@enso-ui/directives';
-import format from '@enso-ui/ui/src/modules/plugins/date-fns/format';
+import Avatar from '@liberu-ui/users/src/bulma/pages/users/components/Avatar.vue';
+import { Fade } from '@liberu-ui/transitions';
+import { EnsoFile } from '@liberu-ui/mixins';
+import { clickOutside, focus, selectOnFocus } from '@liberu-ui/directives';
+import format from '@liberu-ui/ui/src/modules/plugins/date-fns/format';
 import Actions from './Actions.vue';
 
 export default {

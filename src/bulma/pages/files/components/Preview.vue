@@ -18,7 +18,7 @@
 import { FontAwesomeIcon as Fa } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
-import { Modal } from '@enso-ui/modal/bulma';
+import { Modal } from '@liberu-ui/modal/bulma';
 
 library.add(faExternalLinkAlt);
 
