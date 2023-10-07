@@ -2,7 +2,7 @@
   "name": "@liberu-ui/files",
   "version": "5.1.7",
   "description": "Basic files package",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
